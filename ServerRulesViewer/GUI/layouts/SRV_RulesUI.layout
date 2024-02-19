@@ -1,0 +1,137 @@
+FrameWidgetClass rootFrame {
+ position 0.05 0.05
+ size 0.9 0.9
+ hexactpos 0
+ vexactpos 0
+ hexactsize 0
+ vexactsize 0
+ {
+  PanelWidgetClass backgroundPW {
+   ignorepointer 1
+   color 0 0 0 0.6863
+   position 0 0
+   size 1 1
+   hexactpos 0
+   vexactpos 0
+   hexactsize 0
+   vexactsize 0
+   style rover_sim_colorable
+  }
+  TextWidgetClass exitBtnTW {
+   inheritalpha 0
+   ignorepointer 0
+   position 0.01 0.01
+   size 0.035 0.06
+   halign right_ref
+   hexactpos 0
+   vexactpos 0
+   hexactsize 0
+   vexactsize 0
+   style Normal
+   text "X"
+   font "gui/fonts/metron48"
+   "text halign" center
+   "text valign" center
+   {
+    ButtonWidgetClass exitBtn {
+     color 1 1 1 0
+     position 0 0
+     size 1 1
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     "no focus" 1
+    }
+   }
+  }
+  ImageWidgetClass donateBtnIW {
+   ignorepointer 1
+   position 0.05 0.01
+   size 0.035 0.06
+   halign right_ref
+   hexactpos 0
+   vexactpos 0
+   hexactsize 0
+   vexactsize 0
+   mode additive
+   "src alpha" 1
+   "stretch mode" fit_w
+   {
+    ButtonWidgetClass donateBtn {
+     color 1 1 1 0
+     position 0 0
+     size 1 1
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     "no focus" 1
+    }
+   }
+  }
+  TextWidgetClass titleTW {
+   ignorepointer 1
+   position 0.01 0.01
+   size 0.98 0.06
+   hexactpos 0
+   vexactpos 0
+   hexactsize 0
+   vexactsize 0
+   text "Server rules"
+   font "gui/fonts/metron48"
+   "text halign" center
+   "text valign" center
+  }
+  TextWidgetClass pageNumberTW {
+   visible 0
+   ignorepointer 1
+   position 0.01 0.95
+   size 0.98 0.04
+   hexactpos 0
+   vexactpos 0
+   hexactsize 0
+   vexactsize 0
+   text "Page 1 / 2"
+   font "gui/fonts/metron22"
+   "text halign" center
+   "text valign" center
+  }
+  PanelWidgetClass contentBgPW {
+   clipchildren 1
+   inheritalpha 0
+   ignorepointer 1
+   color 0.3098 0.3098 0.3098 0.5882
+   position 0.01 0.1
+   size 0.979 0.89
+   hexactpos 0
+   vexactpos 0
+   hexactsize 0
+   vexactsize 0
+   style rover_sim_colorable
+   {
+    GridSpacerWidgetClass categoriesGrid {
+     ignorepointer 1
+     size 1 0.06
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     Columns 8
+     Rows 1
+    }
+    PanelWidgetClass ruleContentPW {
+     ignorepointer 1
+     color 0.5216 0.5216 0.5216 0.5882
+     position 0.005 0.07
+     size 0.99 0.92
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     style rover_sim_colorable
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,26 @@
+ImageSetClass {
+ Name "srv_ui"
+ RefSize 2048 2048
+ Textures {
+  ImageSetTextureClass {
+   mpix 1
+   path "{E9AEDDBFD1E25476}ServerRulesViewer/ServerRulesViewer/GUI/imagesets/srv_ui.edds"
+  }
+ }
+ Images {
+  ImageSetDefClass srv_heart_red {
+   Name "srv_heart_red"
+   Pos 0 0
+   Size 256 256
+   Flags 0
+  }
+  ImageSetDefClass srv_heart_white {
+   Name "srv_heart_white"
+   Pos 256 0
+   Size 256 256
+   Flags 0
+  }
+ }
+ Groups {
+ }
+}

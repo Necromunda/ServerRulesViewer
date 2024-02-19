@@ -1,0 +1,47 @@
+FrameWidgetClass rootFrame {
+ position 0 0
+ size 0.125 1
+ hexactpos 0
+ vexactpos 0
+ hexactsize 0
+ vexactsize 0
+ {
+  PanelWidgetClass categoryBtnBgPW {
+   ignorepointer 1
+   color 1 1 1 0
+   position 0 0
+   size 1 1
+   hexactpos 0
+   vexactpos 0
+   hexactsize 0
+   vexactsize 0
+   style rover_sim_colorable
+   {
+    ButtonWidgetClass categoryBtn {
+     color 0.949 0.149 0.0745 1
+     position 0 0
+     size 1 1
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     "no focus" 1
+     font "gui/fonts/metron28"
+    }
+    TextWidgetClass categoryBtnTW {
+     ignorepointer 1
+     position 0 0
+     size 1 1
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     text "Category"
+     font "gui/fonts/metron28"
+     "text halign" center
+     "text valign" center
+    }
+   }
+  }
+ }
+}

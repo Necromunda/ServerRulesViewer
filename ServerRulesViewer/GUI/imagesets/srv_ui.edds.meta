@@ -1,0 +1,16 @@
+MetaFileClass {
+ Name "{E9AEDDBFD1E25476}ServerRulesViewer/ServerRulesViewer/GUI/imagesets/srv_ui.edds"
+ Author "desktop-vbp8c3p"
+ ChangeDate 665677907
+ Configurations {
+  TGAResourceClass PC {
+   SourceFile "srv_ui.tga"
+  }
+  TGAResourceClass XBOX_ONE : PC {
+  }
+  TGAResourceClass PS4 : PC {
+  }
+  TGAResourceClass LINUX : PC {
+  }
+ }
+}
