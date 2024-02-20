@@ -1,29 +1,30 @@
 class SRV_RulesUI: UIScriptedMenu
 {
-	const string m_LayoutPath = "ServerRulesViewer/ServerRulesViewer/GUI/layouts/SRV_RulesUI.layout";
+	protected const string m_LayoutPath 	= "ServerRulesViewer/ServerRulesViewer/GUI/layouts/SRV_RulesUI.layout";
+	protected const string m_IconHeartRed 	= "set:srv_ui image:srv_heart_red";
+	protected const string m_IconHeartWhite = "set:srv_ui image:srv_heart_white";
+			
+	protected const int m_CategoriesPerPage = 5;	
+	protected int m_CategoriesPageIndex;
+	protected int m_CategoriesMaxPages;
+	
 	protected GridSpacerWidget m_CategoriesGrid;
+	protected GridSpacerWidget m_RulesGrid;
 
 	protected ButtonWidget m_ExitBtn;
 	protected ButtonWidget m_DonateBtn;
 	
 	protected TextWidget m_TitleTW;
 	protected TextWidget m_ExitBtnTW;
+	protected TextWidget m_CategoryPageHelperTW;
 	
 	protected ImageWidget m_DonateIW;
 	
 	protected Widget m_RuleContentPW;
 	
 	protected ref array<ref SRV_CategoryWidget> m_CategoryWidgets;
-	
+	protected ref array<ref SRV_RuleWidget> m_RuleWidgets;
 	protected ref SRV_Config m_Config;
-	
-	const int m_CategoriesPerPage = 8;
-	
-	protected int m_CategoriesPageIndex;
-	protected int m_CategoriesMaxPages;
-	
-	protected const string m_IconHeartRed = "set:srv_ui image:srv_heart_red";
-	protected const string m_IconHeartWhite = "set:srv_ui image:srv_heart_white";
 	
 	protected SRV_CategoryWidget m_SelectedCategory;
 	
@@ -33,18 +34,21 @@ class SRV_RulesUI: UIScriptedMenu
         layoutRoot	 			= GetGame().GetWorkspace().CreateWidgets(m_LayoutPath);
 		
 		m_CategoriesGrid 		= GridSpacerWidget.Cast(layoutRoot.FindAnyWidget("categoriesGrid"));
+		m_RulesGrid 			= GridSpacerWidget.Cast(layoutRoot.FindAnyWidget("rulesGrid"));
 		
         m_ExitBtn 				= ButtonWidget.Cast(layoutRoot.FindAnyWidget("exitBtn"));
         m_DonateBtn 			= ButtonWidget.Cast(layoutRoot.FindAnyWidget("donateBtn"));
 		
         m_TitleTW 				= TextWidget.Cast(layoutRoot.FindAnyWidget("titleTW"));
         m_ExitBtnTW 			= TextWidget.Cast(layoutRoot.FindAnyWidget("exitBtnTW"));
+        m_CategoryPageHelperTW 	= TextWidget.Cast(layoutRoot.FindAnyWidget("categoryPageHelperTW"));
 		
 		m_DonateIW				= ImageWidget.Cast(layoutRoot.FindAnyWidget("donateBtnIW"));
 		
 		m_RuleContentPW 		= Widget.Cast(layoutRoot.FindAnyWidget("ruleContentPW"));
 		
 		m_CategoryWidgets 		= new array<ref SRV_CategoryWidget>();
+		m_RuleWidgets 			= new array<ref SRV_RuleWidget>();
 
 		m_CategoriesMaxPages 	= Math.Floor(m_Config.categories.Count() / m_CategoriesPerPage);
 		
@@ -118,14 +122,16 @@ class SRV_RulesUI: UIScriptedMenu
 	{
 		if (SRV_Util.IsInsideWidget(m_CategoriesGrid, x, y))
 		{
-			if (wheel == 1)
+			if (wheel == 1 && m_CategoriesPageIndex > 0)
 			{
 				m_CategoriesPageIndex = Math.Clamp(--m_CategoriesPageIndex, 0, m_CategoriesMaxPages);
+				DisplayCategories(m_Config.categories);
 			}
 					
-			if (wheel == -1)
+			if (wheel == -1 && m_CategoriesPageIndex < m_CategoriesMaxPages)
 			{
 				m_CategoriesPageIndex = Math.Clamp(++m_CategoriesPageIndex, 0, m_CategoriesMaxPages);
+				DisplayCategories(m_Config.categories);
 			}
 		}
 		
@@ -160,6 +166,8 @@ class SRV_RulesUI: UIScriptedMenu
 	
 	void DisplayCategories(array<ref SRV_Category> categories)
 	{
+		m_CategoryPageHelperTW.SetText(string.Format("Page %1/%2", m_CategoriesPageIndex + 1, m_CategoriesMaxPages + 1));
+		
 		int startIndex = m_CategoriesPageIndex * m_CategoriesPerPage;
 		int endIndex = Math.Min(startIndex + m_CategoriesPerPage, m_Config.categories.Count());
 
@@ -169,22 +177,44 @@ class SRV_RulesUI: UIScriptedMenu
 			SRV_Category category = categories[i];
 			m_CategoryWidgets.Insert(new SRV_CategoryWidget(m_CategoriesGrid, this, category));
 		}
+		
+		if (m_SelectedCategory)
+		{
+			for (int j = 0; j < m_CategoryWidgets.Count(); j++)
+			{
+				SRV_CategoryWidget srvCategoryWidget = SRV_CategoryWidget.Cast(m_CategoryWidgets[j]);
+				if (srvCategoryWidget.GetRuleCategory().category == m_SelectedCategory.GetRuleCategory().category)
+					srvCategoryWidget.SetActive(true);
+			}
+		}
 	}
 	
-	void OnClickCategory(SRV_CategoryWidget category)
+	void DisplayRules(TStringArray rules)
+	{
+		m_RuleWidgets.Clear();
+		for (int i = 0; i < rules.Count(); i++)
+		{
+			m_RuleWidgets.Insert(new SRV_RuleWidget(m_RulesGrid, this, i, rules[i]));
+			//m_RulesLBW.AddItem(string.Format("%1", i + 1), rules, 0, i);
+			//m_RulesLBW.SetItem(i, rules[i], rules, 1);
+		}
+	}
+	
+	void OnClickCategory(SRV_CategoryWidget categoryWidget)
 	{	
 		if (m_SelectedCategory)
-			m_SelectedCategory.ColorBackground(!m_SelectedCategory.IsBackgroundColored());
+			m_SelectedCategory.SetActive(!m_SelectedCategory.IsActive());
 		
-		if (category == m_SelectedCategory)
+		if (categoryWidget == m_SelectedCategory)
 		{
 			m_SelectedCategory = null;
 			m_RuleContentPW.Show(false);
 		}
 		else
 		{
-			m_SelectedCategory = category;
+			m_SelectedCategory = categoryWidget;
 			m_RuleContentPW.Show(true);
+			DisplayRules(categoryWidget.GetRuleCategory().rules);
 		}
 	}
 }
@@ -194,6 +224,7 @@ class SRV_CategoryWidget extends ScriptedWidgetEventHandler
 	const string m_LayoutPath = "ServerRulesViewer/ServerRulesViewer/GUI/layouts/SRV_Category.layout";
 	protected SRV_RulesUI m_ParentUI;
 	protected SRV_Category m_Category;
+	protected bool m_IsActive;
 	
 	protected Widget m_Root;
 	protected GridSpacerWidget m_ParentWidget;
@@ -224,36 +255,64 @@ class SRV_CategoryWidget extends ScriptedWidgetEventHandler
 		m_ParentWidget.RemoveChild(m_Root);
 	}
 	
-	bool IsBackgroundColored()
+	bool IsActive()
 	{
-		return m_CategoryBtnBgPW.GetAlpha() != 0;
+		return m_IsActive;
 	}
 	
-	void ColorBackground(bool value)
+	SRV_Category GetRuleCategory()
 	{
-		if (value)
-			m_CategoryBtnBgPW.SetColor(COLOR_RED);
+		return m_Category;
+	}
+	
+	void SetActive(bool value)
+	{
+		m_IsActive = value;
+		
+		if (m_IsActive)
+			m_CategoryBtnBgPW.SetAlpha(1);
 		else
 			m_CategoryBtnBgPW.SetAlpha(0);
 	}
 	
 	override bool OnClick( Widget w, int x, int y, int button )
 	{		
-		ColorBackground(true);
+		SetActive(true);
 		m_ParentUI.OnClickCategory(this);
 		
 		return super.OnClick(w, x, y, button);
 	}
+}
+
+class SRV_RuleWidget extends ScriptedWidgetEventHandler 
+{	
+	const string m_LayoutPath = "ServerRulesViewer/ServerRulesViewer/GUI/layouts/SRV_Rule.layout";
+	protected SRV_RulesUI m_ParentUI;
 	
-	/*
-	override bool OnUpdate(Widget w)
-	{
-		int posx, posy;
-		GetMousePos(posx, posy);
+	protected Widget m_Root;
+	protected GridSpacerWidget m_ParentWidget;
+	protected MultilineTextWidget m_RuleMLTW;
+	protected TextWidget m_RuleNumberTW;
+	
+	void SRV_RuleWidget(GridSpacerWidget parentWidget, SRV_RulesUI ui, int number, string rule)
+	{		
+		m_ParentWidget 		 		= GridSpacerWidget.Cast(parentWidget);
+		m_ParentUI 			 		= SRV_RulesUI.Cast(ui);
 		
-		ColorBackground(SRV_Util.IsInsideWidget(m_CategoryBtn, posx, posy));
+		m_Root				 		= GetGame().GetWorkspace().CreateWidgets(m_LayoutPath, m_ParentWidget);
+		m_RuleMLTW					= MultilineTextWidget.Cast(m_Root.FindAnyWidget("ruleMLTW"));
+		m_RuleNumberTW				= TextWidget.Cast(m_Root.FindAnyWidget("ruleNumberTW"));
 		
-		return super.OnUpdate(w);
+		m_RuleMLTW.SetText(rule);
+		m_RuleNumberTW.SetText(number.ToString());
+		
+		m_Root.SetHandler(this);
+		m_Root.Show(true);
 	}
-	*/
+		
+	void ~SRV_RuleWidget()
+	{
+		Print("SRV_RuleWidget deleted");
+		m_ParentWidget.RemoveChild(m_Root);
+	}
 }
