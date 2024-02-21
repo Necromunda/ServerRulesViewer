@@ -41,7 +41,7 @@ class SRV_RulesUI: UIScriptedMenu
 		
         m_TitleTW 				= TextWidget.Cast(layoutRoot.FindAnyWidget("titleTW"));
         m_ExitBtnTW 			= TextWidget.Cast(layoutRoot.FindAnyWidget("exitBtnTW"));
-        m_CategoryPageHelperTW 	= TextWidget.Cast(layoutRoot.FindAnyWidget("categoryPageHelperTW"));
+        //m_CategoryPageHelperTW 	= TextWidget.Cast(layoutRoot.FindAnyWidget("categoryPageHelperTW"));
 		
 		m_DonateIW				= ImageWidget.Cast(layoutRoot.FindAnyWidget("donateBtnIW"));
 		
@@ -194,7 +194,7 @@ class SRV_RulesUI: UIScriptedMenu
 		m_RuleWidgets.Clear();
 		for (int i = 0; i < rules.Count(); i++)
 		{
-			m_RuleWidgets.Insert(new SRV_RuleWidget(m_RulesGrid, this, i, rules[i]));
+			m_RuleWidgets.Insert(new SRV_RuleWidget(m_RulesGrid, this, i + 1, rules[i]));
 			//m_RulesLBW.AddItem(string.Format("%1", i + 1), rules, 0, i);
 			//m_RulesLBW.SetItem(i, rules[i], rules, 1);
 		}

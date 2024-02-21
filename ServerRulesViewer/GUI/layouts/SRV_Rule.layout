@@ -18,8 +18,7 @@ FrameWidgetClass rootFrame {
    style DayZNormal
    text "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed venenatis pharetra odio vehicula commodo. Sed lobortis tortor quis velit sagittis vestibulum. Phasellus dignissim urna nisl, ac bibendum ante imperdiet non. Maecenas varius ornare risus ac volutpat. Nam ligula turpis, consequat lacinia massa non, pellentesque efficitur purus. Nunc laoreet, lorem at auctor mollis, lectus lectus fringilla urna, at dictum ligula magna sit amet est. Curabitur sit amet congue metus. Cras augue lectus, rhoncus eu ex ut, ullamcorper tincidunt elit. Duis in euismod augue, eget tristique enim. Aliquam felis neque, vehicula ac ornare nec, aliquam a augue. Morbi tempus turpis ut lectus vulputate bibendum."
    font "gui/fonts/metron22"
-   "text offset" 10 5
-   "exact text" 0
+   "exact text" 1
    "size to text h" 1
    "size to text v" 1
    wrap 1
