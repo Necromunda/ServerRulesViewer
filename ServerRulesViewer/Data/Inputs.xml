@@ -4,6 +4,12 @@
         <actions>
 			<input name="ServerRulesViewer" loc="Show server rules" />
         </actions>
+		<!-- <sorting name="SRV" loc="others"> -->
+			<!-- <input name="ServerRulesViewer"/> -->
+		<!-- </sorting> -->
+		<!-- <exclude name="SRVKeys"> -->
+			<!-- <input name="ServerRulesViewer"/> -->
+		<!-- </exclude> -->
     </inputs>
     <preset>
 		<input name="ServerRulesViewer">

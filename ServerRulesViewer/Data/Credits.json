@@ -1,10 +1,10 @@
 {
     "Departments": [{
-        "DepartmentName": "Example",
+        "DepartmentName": "ServerRulesViewer",
         "Sections": [{
             "SectionName": "Developers",
             "SectionLines": [
-                "DayZ Mod Template by InclementDab"
+                "Made by Necro"
             ]
         }]
     }]
