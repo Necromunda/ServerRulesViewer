@@ -1,27 +1,5 @@
 class SRV_Util
-{
-	static void SendClientAlert(PlayerIdentity player, string title, string message, string icon, int duration = 3) 
-	{
-		if (GetGame().IsClient())
-			return;
-		
-		if (!icon)
-			icon = CT_ICON;
-		
-		NotificationSystem.SendNotificationToPlayerIdentityExtended(player, duration, title, message, icon);
-	}
-
-	static void SendClientAlertLocal(string title, string message, string icon, int duration = 3) 
-	{
-		if (GetGame().IsServer())
-			return;
-		
-		if (!icon)
-			icon = CT_ICON;
-		
-		NotificationSystem.AddNotificationExtended(duration, title, message, icon);
-	}
-	
+{	
 	static bool IsInsideWidget(Widget w, int posx, int posy)
 	{
 		float w_x, w_y, w_width, w_height;
